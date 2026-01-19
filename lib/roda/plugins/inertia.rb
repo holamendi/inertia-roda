@@ -6,6 +6,7 @@ class Roda
     module Inertia
       def self.load_dependencies(app, opts = {})
         app.plugin :render
+        app.plugin :h
       end
 
       def self.configure(app, opts = {})
