@@ -31,8 +31,8 @@ class Roda
             response['X-Inertia'] = 'true'
             page_data.to_json
           else
-            # HTML rendering - next task
-            page_data.to_json
+            @inertia_page_data = page_data.to_json
+            view(opts[:inertia_template])
           end
         end
 
