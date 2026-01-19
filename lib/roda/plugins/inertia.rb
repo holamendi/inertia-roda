@@ -21,7 +21,7 @@ class Roda
         end
 
         def inertia(component, props: {})
-          if inertia_request? && version_stale?
+          if request.get? && inertia_request? && version_stale?
             response.status = 409
             response['X-Inertia-Location'] = request.url
             return ''

@@ -56,4 +56,23 @@ class InertiaVersionTest < InertiaTest
 
     assert_equal 409, last_response.status
   end
+
+  def test_post_with_stale_version_proceeds_normally
+    app_with_post = Class.new(Roda) do
+      plugin :inertia, version: '1.0'
+
+      route do |r|
+        r.post 'submit' do
+          inertia 'Form/Success', props: { message: 'Submitted' }
+        end
+      end
+    end
+
+    @app = app_with_post
+    header 'X-Inertia', 'true'
+    header 'X-Inertia-Version', '0.9'
+    post '/submit'
+
+    assert_equal 200, last_response.status
+  end
 end
