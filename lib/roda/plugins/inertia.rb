@@ -21,6 +21,12 @@ class Roda
         end
 
         def inertia(component, props: {})
+          if inertia_request? && version_stale?
+            response.status = 409
+            response['X-Inertia-Location'] = request.url
+            return ''
+          end
+
           page_data = {
             component: component,
             props: inertia_shared_data.merge(props),
@@ -59,6 +65,13 @@ class Roda
         end
 
         private
+
+        def version_stale?
+          client_version = request.get_header('HTTP_X_INERTIA_VERSION')
+          server_version = inertia_version
+
+          server_version && client_version && client_version != server_version.to_s
+        end
 
         def external_url?(path)
           return false unless path.start_with?('http://', 'https://')
