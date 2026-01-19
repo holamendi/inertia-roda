@@ -1,5 +1,6 @@
 # lib/roda/plugins/inertia.rb
 require 'json'
+require 'uri'
 
 class Roda
   module RodaPlugins
@@ -41,7 +42,31 @@ class Roda
           {}
         end
 
+        def inertia_redirect(path, status: nil)
+          if inertia_request?
+            status ||= request.get? ? 302 : 303
+
+            if external_url?(path)
+              response.status = 409
+              response['X-Inertia-Location'] = path
+              ''
+            else
+              request.redirect(path, status)
+            end
+          else
+            request.redirect(path, status || 302)
+          end
+        end
+
         private
+
+        def external_url?(path)
+          return false unless path.start_with?('http://', 'https://')
+          uri = URI.parse(path)
+          uri.host != request.host
+        rescue URI::InvalidURIError
+          false
+        end
 
         def inertia_version
           version = opts[:inertia_version]
