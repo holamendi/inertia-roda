@@ -16,12 +16,14 @@ class InertiaRequestTest < InertiaTest
 
   def test_returns_false_for_regular_requests
     get "/"
+
     assert_equal "regular", last_response.body
   end
 
   def test_returns_true_for_inertia_requests
     header "X-Inertia", "true"
     get "/"
+
     assert_equal "inertia", last_response.body
   end
 end

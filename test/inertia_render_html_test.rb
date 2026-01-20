@@ -22,11 +22,13 @@ class InertiaRenderHtmlTest < InertiaTest
 
   def test_returns_html_for_regular_request
     get "/"
+
     assert_includes last_response.content_type, "text/html"
   end
 
   def test_html_contains_app_div_with_page_data
     get "/"
+
     assert_includes last_response.body, '<div id="app" data-page='
   end
 
