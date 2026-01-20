@@ -1,0 +1,9 @@
+# frozen_string_literal: true
+
+source "https://rubygems.org"
+
+gem "roda", "~> 3.0"
+gem "puma", "~> 6.0"
+gem "inertia-roda", path: "../.."
+gem "vite_roda", path: File.expand_path("~/code/vite_roda")
+gem "vite_ruby", "~> 3.0"
