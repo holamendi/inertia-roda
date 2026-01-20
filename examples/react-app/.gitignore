@@ -1,4 +1,6 @@
 node_modules/
-public/vite/
+public/assets/
 Gemfile.lock
+package-lock.json
 .bundle/
+tmp/

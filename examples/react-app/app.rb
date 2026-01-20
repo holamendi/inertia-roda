@@ -3,11 +3,22 @@
 require "bundler/setup"
 require "roda"
 require "inertia_roda"
-require "vite_roda"
+require "json"
 
 class App < Roda
-  plugin :vite
+  plugin :public
   plugin :inertia, version: "1.0"
+
+  MANIFEST_PATH = File.join(__dir__, "public/assets/.vite/manifest.json")
+
+  # Simple Vite manifest helper
+  def vite_asset_path(name)
+    return "/assets/#{name}" unless File.exist?(MANIFEST_PATH)
+
+    manifest = JSON.parse(File.read(MANIFEST_PATH))
+    entry = manifest["frontend/#{name}"] || manifest[name]
+    entry ? "/assets/#{entry["file"]}" : "/assets/#{name}"
+  end
 
   def inertia_shared_data
     {
@@ -16,7 +27,7 @@ class App < Roda
   end
 
   route do |r|
-    r.vite_assets
+    r.public
 
     r.root do
       inertia "Home", props: {

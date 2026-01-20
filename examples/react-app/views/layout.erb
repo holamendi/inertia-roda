@@ -4,10 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inertia + Roda Example</title>
-  <%= vite_client_tag %>
-  <%= vite_javascript_tag "application", type: "module" %>
 </head>
 <body>
   <%= yield %>
+  <script type="module" src="<%= vite_asset_path('application.jsx') %>"></script>
 </body>
 </html>

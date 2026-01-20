@@ -10,11 +10,22 @@ bundle install
 
 # Install JavaScript dependencies
 npm install
+
+# Build frontend assets
+npm run build
 ```
 
-## Development
+## Running
 
-Run both the Vite dev server and the Roda app:
+```bash
+bundle exec puma
+```
+
+Visit http://localhost:9292
+
+## Development with HMR
+
+For hot module replacement during development:
 
 ```bash
 # Terminal 1: Start Vite dev server
@@ -24,16 +35,9 @@ npm run dev
 bundle exec puma
 ```
 
-Visit http://localhost:9292
-
-## Production Build
-
-```bash
-# Build frontend assets
-npm run build
-
-# Start server
-bundle exec puma -e production
+Then update `views/layout.erb` to point to the Vite dev server:
+```erb
+<script type="module" src="http://localhost:5173/frontend/application.jsx"></script>
 ```
 
 ## Structure
@@ -42,7 +46,7 @@ bundle exec puma -e production
 ├── app.rb                    # Roda application
 ├── config.ru                 # Rack config
 ├── views/
-│   ├── layout.erb            # HTML layout with Vite tags
+│   ├── layout.erb            # HTML layout
 │   └── inertia.erb           # Inertia mount point
 └── frontend/
     ├── application.jsx       # React entry point
