@@ -22,8 +22,8 @@ class InertiaSharedDataTest < InertiaTest
   def test_merges_shared_data_into_props
     header "X-Inertia", "true"
     get "/"
-
     data = JSON.parse(last_response.body)
+
     assert_equal "shared_value", data["props"]["shared_key"]
     assert_equal "local_value", data["props"]["local_key"]
   end
@@ -46,8 +46,8 @@ class InertiaSharedDataTest < InertiaTest
     @app = app_with_override
     header "X-Inertia", "true"
     get "/"
-
     data = JSON.parse(last_response.body)
+
     assert_equal "local", data["props"]["key"]
   end
 end

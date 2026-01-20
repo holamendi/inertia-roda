@@ -34,14 +34,15 @@ class InertiaRenderHtmlTest < InertiaTest
 
   def test_page_data_contains_component_and_props
     get "/"
-
     # Extract JSON from data-page attribute (now using double quotes and HTML-escaped)
     match = last_response.body.match(/data-page="([^"]+)"/)
+
     assert match, "Could not find data-page attribute"
 
     # Unescape HTML entities before parsing JSON
     json_str = CGI.unescapeHTML(match[1])
     data = JSON.parse(json_str)
+
     assert_equal "Home", data["component"]
     assert_equal({"name" => "World"}, data["props"])
   end
@@ -88,9 +89,9 @@ class InertiaXssPreventionTest < InertiaTest
 
   def test_data_is_recoverable_after_escaping
     get "/xss"
-
     # Extract and parse the data
     match = last_response.body.match(/data-page="([^"]+)"/)
+
     assert match, "Could not find data-page attribute"
 
     json_str = CGI.unescapeHTML(match[1])

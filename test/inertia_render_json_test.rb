@@ -26,8 +26,8 @@ class InertiaRenderJsonTest < InertiaTest
   def test_json_contains_component_and_props
     header "X-Inertia", "true"
     get "/"
-
     data = JSON.parse(last_response.body)
+
     assert_equal "Home", data["component"]
     assert_equal({"name" => "World"}, data["props"])
   end
@@ -35,8 +35,8 @@ class InertiaRenderJsonTest < InertiaTest
   def test_json_contains_url_and_version
     header "X-Inertia", "true"
     get "http://example.org/"
-
     data = JSON.parse(last_response.body)
+
     assert_equal "http://example.org/", data["url"]
     assert_equal "1.0", data["version"]
   end
