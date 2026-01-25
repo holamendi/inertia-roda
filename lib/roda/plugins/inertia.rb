@@ -75,6 +75,7 @@ class Roda
 
         def external_url?(path)
           return false unless path.start_with?("http://", "https://")
+
           uri = URI.parse(path)
           uri.host != request.host
         rescue URI::InvalidURIError
@@ -83,7 +84,12 @@ class Roda
 
         def inertia_version
           version = opts[:inertia_version]
-          version.respond_to?(:call) ? version.call : version
+
+          if version.respond_to?(:call)
+            version.call
+          else
+            version
+          end
         end
       end
     end

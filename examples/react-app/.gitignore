@@ -1,6 +1,0 @@
-node_modules/
-public/assets/
-Gemfile.lock
-package-lock.json
-.bundle/
-tmp/
