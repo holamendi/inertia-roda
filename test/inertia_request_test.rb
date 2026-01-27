@@ -1,4 +1,3 @@
-# test/inertia_request_test.rb
 require_relative "test_helper"
 
 class InertiaRequestTest < InertiaTest

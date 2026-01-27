@@ -6,13 +6,11 @@ class Roda
   module RodaPlugins
     module Inertia
       def self.load_dependencies(app, opts = {})
-        app.plugin :render
         app.plugin :h
       end
 
       def self.configure(app, opts = {})
         app.opts[:inertia_version] = opts[:version]
-        app.opts[:inertia_template] = opts[:template] || "inertia"
       end
 
       module InstanceMethods
@@ -29,7 +27,7 @@ class Roda
 
           page_data = {
             component: component,
-            props: inertia_shared_data.merge(props),
+            props: inertia_share.merge(props),
             url: request.url,
             version: inertia_version
           }
@@ -39,13 +37,18 @@ class Roda
             response["X-Inertia"] = "true"
             page_data.to_json
           else
+            response["Content-Type"] = "text/html"
             @inertia_page_data = page_data.to_json
-            view(opts[:inertia_template])
+            inertia_root
           end
         end
 
-        def inertia_shared_data
+        def inertia_share
           {}
+        end
+
+        def inertia_root(id: "app")
+          %(<div id="#{h(id)}" data-page="#{h(@inertia_page_data)}"></div>)
         end
 
         def inertia_redirect(path, status: nil)

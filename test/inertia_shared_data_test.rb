@@ -1,13 +1,12 @@
-# test/inertia_shared_data_test.rb
 require_relative "test_helper"
 require "json"
 
 class InertiaSharedDataTest < InertiaTest
   def app
-    @app || Class.new(Roda) do
+    @app ||= Class.new(Roda) do
       plugin :inertia, version: "1.0"
 
-      def inertia_shared_data
+      def inertia_share
         {shared_key: "shared_value"}
       end
 
@@ -32,7 +31,7 @@ class InertiaSharedDataTest < InertiaTest
     app_with_override = Class.new(Roda) do
       plugin :inertia
 
-      def inertia_shared_data
+      def inertia_share
         {key: "shared"}
       end
 

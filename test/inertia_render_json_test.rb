@@ -1,4 +1,3 @@
-# test/inertia_render_json_test.rb
 require_relative "test_helper"
 require "json"
 

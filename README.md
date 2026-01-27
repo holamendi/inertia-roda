@@ -1,45 +1,51 @@
-# inertia-roda
-
-A Roda plugin providing server-side Inertia.js adapter.
+# Inertia.js Roda adapter
 
 ## Installation
 
 Add to your Gemfile:
 
 ```ruby
-gem 'inertia-roda'
+gem "inertia-roda"
 ```
 
 ## Usage
 
 ```ruby
 class App < Roda
-  plugin :inertia, version: '1.0'
+  plugin :inertia, version: "1.0"
 
-  def inertia_shared_data
-    { current_user: current_user }
+  def inertia_share
+    {current_user:}
   end
 
   route do |r|
-    r.get 'users' do
-      inertia 'Users/Index', props: { users: User.all }
+    r.get "users" do
+      inertia "Users/Index", props: { users: User.all }
     end
 
-    r.post 'users' do
+    r.post "users" do
       User.create(r.params)
-      inertia_redirect '/users'
+      inertia_redirect "/users"
     end
   end
 end
 ```
 
-Create `views/inertia.erb`:
+The `inertia` method returns a `<div id="app">` element. To add your CSS/JS assets, use Roda's render plugin:
 
-```erb
-<div id="app" data-page="<%= h @inertia_page_data %>"></div>
+```ruby
+class App < Roda
+  plugin :render
+  plugin :inertia, version: "1.0"
+
+  def inertia(component, props: {})
+    html = super
+    view(inline: html, layout: true)
+  end
+end
 ```
 
-And `views/layout.erb` with your assets:
+Create `views/layout.erb`:
 
 ```erb
 <!DOCTYPE html>
@@ -47,7 +53,7 @@ And `views/layout.erb` with your assets:
 <head>
   <title>My App</title>
   <%= vite_client_tag %>
-  <%= vite_javascript_tag 'application' %>
+  <%= vite_javascript_tag "application" %>
 </head>
 <body>
   <%= yield %>
@@ -65,18 +71,24 @@ Renders an Inertia response. Returns JSON for Inertia requests, HTML for initial
 
 Redirects with Inertia-aware status codes. Uses 303 for non-GET requests.
 
-### `inertia_shared_data`
+### `inertia_share`
 
-Override to provide shared props for all responses.
+Provide shared props for all responses.
+
+### `inertia_root(id: "app")`
+
+Renders the root `<div>` element with page data.
 
 ## Configuration
 
 ```ruby
-plugin :inertia,
-  version: '1.0',           # Asset version (string or callable)
-  template: 'inertia'       # ERB template name (default: 'inertia')
+plugin :inertia, version: "1.0" # Asset version (string or proc)
 ```
+## Vite Integration
 
-## License
+Add [vite_roda](https://github.com/holamendi/vite_roda) to your Gemfile:
 
-MIT
+```ruby
+plugin :vite
+plugin :inertia, version: ViteRuby.digest
+```

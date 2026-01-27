@@ -1,4 +1,3 @@
-# test/inertia_redirect_test.rb
 require_relative "test_helper"
 
 class InertiaRedirectTest < InertiaTest
