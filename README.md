@@ -13,39 +13,28 @@ gem "inertia-roda"
 ```ruby
 class App < Roda
   plugin :inertia, version: "1.0"
+  plugin :render
+
+  USERS = [{ id: 1, name: "Alice" }, { id: 2, name: "Bob" }]
 
   def inertia_share
-    {current_user:}
+    {current_user: USERS.first}
   end
 
   route do |r|
     r.get "users" do
-      inertia "Users/Index", props: { users: User.all }
+      inertia "Users/Index", props: { users: USERS }
     end
 
     r.post "users" do
-      User.create(r.params)
+      USERS << { id: USERS.size + 1, name: "New User" }
       inertia_redirect "/users"
     end
   end
 end
 ```
 
-The `inertia` method returns a `<div id="app">` element. To add your CSS/JS assets, use Roda's render plugin:
-
-```ruby
-class App < Roda
-  plugin :render
-  plugin :inertia, version: "1.0"
-
-  def inertia(component, props: {})
-    html = super
-    view(inline: html, layout: true)
-  end
-end
-```
-
-Create `views/layout.erb`:
+`views/layout.erb`:
 
 ```erb
 <!DOCTYPE html>
@@ -56,7 +45,7 @@ Create `views/layout.erb`:
   <%= vite_javascript_tag "application" %>
 </head>
 <body>
-  <%= yield %>
+  <%= inertia_root %>
 </body>
 </html>
 ```
