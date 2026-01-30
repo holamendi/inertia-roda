@@ -4,8 +4,10 @@ require "cgi"
 
 class InertiaRenderHtmlTest < InertiaTest
   def app
+    views_path = File.join(__dir__, "views")
     Class.new(Roda) do
       plugin :inertia, version: "1.0"
+      plugin :render, views: views_path
 
       route do |r|
         r.root do
@@ -19,6 +21,13 @@ class InertiaRenderHtmlTest < InertiaTest
     get "/"
 
     assert_includes last_response.content_type, "text/html"
+  end
+
+  def test_renders_full_html_page
+    get "/"
+
+    assert_includes last_response.body, "<!DOCTYPE html>"
+    assert_includes last_response.body, "<body>"
   end
 
   def test_page_data_contains_component_and_props
@@ -38,8 +47,10 @@ end
 
 class InertiaXssPreventionTest < InertiaTest
   def app
+    views_path = File.join(__dir__, "views")
     Class.new(Roda) do
       plugin :inertia, version: "1.0"
+      plugin :render, views: views_path
 
       route do |r|
         r.get "xss" do

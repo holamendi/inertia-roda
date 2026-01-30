@@ -13,7 +13,6 @@ gem "inertia-roda"
 ```ruby
 class App < Roda
   plugin :inertia, version: "1.0"
-  plugin :render
 
   USERS = [{ id: 1, name: "Alice" }, { id: 2, name: "Bob" }]
 

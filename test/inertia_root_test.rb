@@ -5,8 +5,10 @@ require "cgi"
 
 class InertiaRootTest < InertiaTest
   def app
+    views_path = File.join(__dir__, "views")
     Class.new(Roda) do
       plugin :inertia, version: "1.0"
+      plugin :render, views: views_path
 
       route do |r|
         r.root do
@@ -39,8 +41,10 @@ end
 
 class InertiaRootCustomIdTest < InertiaTest
   def app
+    views_path = File.join(__dir__, "views")
     Class.new(Roda) do
       plugin :inertia, version: "1.0"
+      plugin :render, views: views_path
 
       def inertia_root(id: "app")
         super(id: "custom-root")
