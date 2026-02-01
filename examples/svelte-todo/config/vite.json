@@ -1,0 +1,14 @@
+{
+  "all": {
+    "sourceCodeDir": "frontend",
+    "entrypointsDir": "entrypoints"
+  },
+  "development": {
+    "autoBuild": true,
+    "publicOutputDir": "vite-dev",
+    "port": 3036
+  },
+  "production": {
+    "publicOutputDir": "vite"
+  }
+}
