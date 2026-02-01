@@ -43,6 +43,20 @@ class InertiaRenderHtmlTest < InertiaTest
     assert_equal "Home", data["component"]
     assert_equal({"name" => "Santiago"}, data["props"])
   end
+
+  def test_page_data_contains_url_and_version
+    get "http://example.org/"
+
+    match = last_response.body.match(/data-page="([^"]+)"/)
+
+    assert match, "could not find data-page attribute"
+
+    json = CGI.unescapeHTML(match[1])
+    data = JSON.parse(json)
+
+    assert_equal "http://example.org/", data["url"]
+    assert_equal "1.0", data["version"]
+  end
 end
 
 class InertiaXssPreventionTest < InertiaTest
