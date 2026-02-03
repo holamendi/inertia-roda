@@ -1,0 +1,68 @@
+PATH
+  remote: ../..
+  specs:
+    inertia-roda (0.1.0)
+      roda (>= 3.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    bigdecimal (4.0.1)
+    dry-cli (1.4.1)
+    logger (1.7.0)
+    mutex_m (0.3.0)
+    nio4r (2.7.5)
+    puma (7.2.0)
+      nio4r (~> 2.0)
+    rack (3.2.4)
+    rack-proxy (0.7.7)
+      rack
+    roda (3.100.0)
+      rack
+    sequel (5.100.0)
+      bigdecimal
+    sqlite3 (2.9.0-aarch64-linux-gnu)
+    sqlite3 (2.9.0-aarch64-linux-musl)
+    sqlite3 (2.9.0-arm-linux-gnu)
+    sqlite3 (2.9.0-arm-linux-musl)
+    sqlite3 (2.9.0-arm64-darwin)
+    sqlite3 (2.9.0-x86-linux-gnu)
+    sqlite3 (2.9.0-x86-linux-musl)
+    sqlite3 (2.9.0-x86_64-darwin)
+    sqlite3 (2.9.0-x86_64-linux-gnu)
+    sqlite3 (2.9.0-x86_64-linux-musl)
+    tilt (2.7.0)
+    vite_roda (0.1.0)
+      roda (>= 3.0)
+      vite_ruby (~> 3.0)
+    vite_ruby (3.9.2)
+      dry-cli (>= 0.7, < 2)
+      logger (~> 1.6)
+      mutex_m
+      rack-proxy (~> 0.6, >= 0.6.1)
+      zeitwerk (~> 2.2)
+    zeitwerk (2.7.4)
+
+PLATFORMS
+  aarch64-linux-gnu
+  aarch64-linux-musl
+  arm-linux-gnu
+  arm-linux-musl
+  arm64-darwin
+  x86-linux-gnu
+  x86-linux-musl
+  x86_64-darwin
+  x86_64-linux-gnu
+  x86_64-linux-musl
+
+DEPENDENCIES
+  inertia-roda!
+  puma
+  roda
+  sequel
+  sqlite3
+  tilt
+  vite_roda
+
+BUNDLED WITH
+   2.7.1
