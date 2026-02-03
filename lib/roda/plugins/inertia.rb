@@ -1,4 +1,3 @@
-# lib/roda/plugins/inertia.rb
 require "json"
 require "uri"
 

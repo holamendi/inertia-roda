@@ -3,7 +3,6 @@ require "roda"
 require "vite_roda"
 require "logger"
 
-# Database
 DB = Sequel.sqlite
 DB.loggers << Logger.new($stderr)
 DB.create_table? :todos do
