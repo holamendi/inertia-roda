@@ -38,7 +38,7 @@ class Roda
             page_data.to_json
           else
             @inertia_page_data = page_data.to_json
-            view(content: inertia_root)
+            view(content: "")
           end
         end
 
