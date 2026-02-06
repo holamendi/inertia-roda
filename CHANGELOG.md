@@ -1,14 +1,22 @@
 # Changelog
 
-## 0.1.0
+All notable changes to this project will be documented in this file.
 
-Initial release.
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-- Inertia.js protocol support for Roda
-- `inertia` method with JSON and HTML rendering
-- `inertia_redirect` with 303 for non-GET requests and external URL support
-- `inertia_share` for shared props across responses
-- `inertia_root` helper for the root `<div>` element
+## [0.1.0]
+
+### Added
+
+- Initial release
+- Roda plugin with `plugin :inertia` registration
+- `inertia` method for rendering Inertia responses (JSON for XHR, full HTML for initial loads)
+- `inertia_share` for shared data across requests
+- `inertia_redirect` with 303 status and external URL support
 - Asset version checking with 409 on mismatch
-- XSS-safe HTML escaping in initial page loads
-- React example app with Vite
+- HTML escaping to prevent XSS in page data
+- Full HTML page rendering through layout system
+- Example apps for React and Svelte
+
+[0.1.0]: https://github.com/holamendi/inertia-roda/releases/tag/v0.1.0

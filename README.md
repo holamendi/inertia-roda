@@ -1,4 +1,6 @@
-# Inertia.js Roda adapter
+# Inertia.js Roda Adapter
+
+Server-side [Inertia.js](https://inertiajs.com) adapter for [Roda](https://roda.jeremyevans.net).
 
 ## Installation
 
@@ -8,31 +10,30 @@ Add to your Gemfile:
 gem "inertia-roda"
 ```
 
-## Usage
+## Quick Start
 
 ```ruby
 class App < Roda
   plugin :inertia, version: "1.0"
-  plugin :render
-
-  USERS = [{ id: 1, name: "Alice" }, { id: 2, name: "Bob" }]
 
   def inertia_share
-    {current_user: USERS.first}
+    { user: { email: "bobbytables@example.com"} }
   end
 
   route do |r|
-    r.get "users" do
-      inertia "Users/Index", props: { users: USERS }
+    r.get "dashboard" do
+      inertia "Dashboard", props: { name: "Alice" }
     end
 
-    r.post "users" do
-      USERS << { id: USERS.size + 1, name: "New User" }
-      inertia_redirect "/users"
+    r.post "logout" do
+      logout!
+      inertia_redirect "/login"
     end
   end
 end
 ```
+
+The plugin loads Roda's `render` plugin automatically. Your layout template calls `inertia_root` to render the root `<div>` with page data:
 
 `views/layout.erb`:
 
@@ -41,6 +42,35 @@ end
 <html>
 <head>
   <title>My App</title>
+  <!-- Your JS and CSS assets go here (see Vite Integration below) -->
+</head>
+<body>
+  <%= inertia_root %>
+</body>
+</html>
+```
+
+To customize the views path or layout name, load the `render` plugin yourself:
+
+```ruby
+plugin :render, views: "app/views", layout: "my_layout"
+```
+
+## Vite Integration
+
+`inertia-roda` pairs well with [vite_roda](https://github.com/holamendi/vite_roda) for asset management and hot reloading:
+
+```ruby
+plugin :vite
+plugin :inertia, version: -> { ViteRuby.digest }
+```
+
+Use the Vite helpers in your layout to load your frontend entrypoint:
+
+```erb
+<!DOCTYPE html>
+<html>
+<head>
   <%= vite_client_tag %>
   <%= vite_javascript_tag "application" %>
 </head>
@@ -54,30 +84,26 @@ end
 
 ### `inertia(component, props: {})`
 
-Renders an Inertia response. Returns JSON for Inertia requests, HTML for initial page loads.
+Renders an Inertia response. Returns JSON for Inertia requests, or a full HTML page (via layout) for initial page loads. Shared props from `inertia_share` are merged in automatically.
 
 ### `inertia_redirect(path, status: nil)`
 
-Redirects with Inertia-aware status codes. Uses 303 for non-GET requests.
+Inertia-aware redirect. For Inertia requests with non-GET methods, defaults to 303 (forcing a GET). External URLs (different host) return a 409 with `X-Inertia-Location` header. You can override the status:
+
+```ruby
+inertia_redirect "/destination", status: 301
+```
 
 ### `inertia_share`
 
-Provide shared props for all responses.
-
-### `inertia_root(id: "app")`
-
-Renders the root `<div>` element with page data.
-
-## Configuration
+Provide shared props merged into every response:
 
 ```ruby
-plugin :inertia, version: "1.0" # Asset version (string or proc)
+def inertia_share
+  { user: { email: "bobbytables@example.com"} }
+end
 ```
-## Vite Integration
 
-Add [vite_roda](https://github.com/holamendi/vite_roda) to your Gemfile:
+## License
 
-```ruby
-plugin :vite
-plugin :inertia, version: ViteRuby.digest
-```
+MIT

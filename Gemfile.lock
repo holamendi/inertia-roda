@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     inertia-roda (0.1.0)
-      roda (>= 3.0)
+      roda (~> 3.0)
 
 GEM
   remote: https://rubygems.org/

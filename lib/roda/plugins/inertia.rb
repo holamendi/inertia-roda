@@ -1,4 +1,3 @@
-# lib/roda/plugins/inertia.rb
 require "json"
 require "uri"
 
@@ -7,6 +6,7 @@ class Roda
     module Inertia
       def self.load_dependencies(app, opts = {})
         app.plugin :h
+        app.plugin :render
       end
 
       def self.configure(app, opts = {})
@@ -37,9 +37,8 @@ class Roda
             response["X-Inertia"] = "true"
             page_data.to_json
           else
-            response["Content-Type"] = "text/html"
             @inertia_page_data = page_data.to_json
-            inertia_root
+            view(content: "")
           end
         end
 

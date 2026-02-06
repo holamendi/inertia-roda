@@ -3,8 +3,10 @@ require_relative "test_helper"
 
 class InertiaVersionTest < InertiaTest
   def app
+    views_path = File.join(__dir__, "views")
     @app || Class.new(Roda) do
       plugin :inertia, version: "1.0"
+      plugin :render, views: views_path
 
       route do |r|
         r.root do
@@ -55,6 +57,13 @@ class InertiaVersionTest < InertiaTest
     get "http://example.org/"
 
     assert_equal 409, last_response.status
+  end
+
+  def test_non_inertia_get_with_stale_version_returns_200
+    header "X-Inertia-Version", "0.9"
+    get "/"
+
+    assert_equal 200, last_response.status
   end
 
   def test_post_with_stale_version_proceeds_normally
