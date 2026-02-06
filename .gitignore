@@ -1,2 +1,4 @@
 .worktrees/
 CLAUDE.md
+examples/svelte-todo/public/
+examples/svelte-todo/tmp/
