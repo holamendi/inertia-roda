@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.files = Dir["lib/**/*", "LICENSE.txt", "README.md", "CHANGELOG.md"]
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "roda", ">= 3.0"
+  spec.add_dependency "roda", "~> 3.0"
 
   spec.add_development_dependency "minitest", "~> 5.0"
   spec.add_development_dependency "rack-test", "~> 2.0"
