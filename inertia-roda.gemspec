@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = ">= 2.7.0"
 
-  s.add_dependency "roda", ">= 3.0"
+  s.add_dependency "roda", "~> 3.0"
 
   s.add_development_dependency "minitest", "~> 5.0"
   s.add_development_dependency "rack-test", "~> 2.0"
