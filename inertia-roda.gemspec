@@ -1,7 +1,7 @@
 # inertia-roda.gemspec
 Gem::Specification.new do |spec|
   spec.name = "inertia-roda"
-  spec.version = "0.1.0"
+  spec.version = "0.1.1"
   spec.authors = ["Pablo Orellana"]
   spec.email = ["hola@mendi.cl"]
 
