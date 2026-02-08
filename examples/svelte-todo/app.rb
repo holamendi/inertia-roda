@@ -45,6 +45,10 @@ class App < Roda
 
       r.on Integer do |id|
         todo = Todo[id]
+        unless todo
+          response.status = 404
+          next "Todo not found"
+        end
 
         r.put true do
           todo.update(completed: !todo.completed)

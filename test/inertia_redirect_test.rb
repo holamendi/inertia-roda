@@ -107,6 +107,10 @@ class InertiaRedirectSameHostTest < InertiaTest
         r.get "same-host" do
           inertia_redirect "http://example.org/same-host-path"
         end
+
+        r.get "same-host-different-port" do
+          inertia_redirect "http://example.org:3000/same-host-path"
+        end
       end
     end
   end
@@ -117,5 +121,13 @@ class InertiaRedirectSameHostTest < InertiaTest
 
     assert_equal 302, last_response.status
     assert_equal "http://example.org/same-host-path", last_response["Location"]
+  end
+
+  def test_same_host_with_different_port_is_treated_as_external
+    header "X-Inertia", "true"
+    get "/same-host-different-port"
+
+    assert_equal 409, last_response.status
+    assert_equal "http://example.org:3000/same-host-path", last_response["X-Inertia-Location"]
   end
 end

@@ -54,7 +54,21 @@ class InertiaRenderHtmlTest < InertiaTest
     json = CGI.unescapeHTML(match[1])
     data = JSON.parse(json)
 
-    assert_equal "http://example.org/", data["url"]
+    assert_equal "/", data["url"]
+    assert_equal "1.0", data["version"]
+  end
+
+  def test_page_data_url_includes_query_string
+    get "http://example.org/?page=2&filter=active"
+
+    match = last_response.body.match(/data-page="([^"]+)"/)
+
+    assert match, "could not find data-page attribute"
+
+    json = CGI.unescapeHTML(match[1])
+    data = JSON.parse(json)
+
+    assert_equal "/?page=2&filter=active", data["url"]
     assert_equal "1.0", data["version"]
   end
 end
