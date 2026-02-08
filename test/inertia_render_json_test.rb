@@ -36,7 +36,16 @@ class InertiaRenderJsonTest < InertiaTest
     get "http://example.org/"
     data = JSON.parse(last_response.body)
 
-    assert_equal "http://example.org/", data["url"]
+    assert_equal "/", data["url"]
+    assert_equal "1.0", data["version"]
+  end
+
+  def test_json_url_includes_query_string
+    header "X-Inertia", "true"
+    get "http://example.org/?page=2&filter=active"
+    data = JSON.parse(last_response.body)
+
+    assert_equal "/?page=2&filter=active", data["url"]
     assert_equal "1.0", data["version"]
   end
 end

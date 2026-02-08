@@ -28,7 +28,7 @@ class Roda
           page_data = {
             component: component,
             props: inertia_share.merge(props),
-            url: request.url,
+            url: inertia_request_url,
             version: inertia_version
           }
 
@@ -79,9 +79,16 @@ class Roda
           return false unless path.start_with?("http://", "https://")
 
           uri = URI.parse(path)
-          uri.host != request.host
+          [uri.scheme, uri.host, uri.port] != [request.scheme, request.host, request.port]
         rescue URI::InvalidURIError
           false
+        end
+
+        def inertia_request_url
+          query = request.query_string
+          return request.path if query.nil? || query.empty?
+
+          "#{request.path}?#{query}"
         end
 
         def inertia_version
